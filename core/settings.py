@@ -27,8 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'accounting.User'
 
 # Application definition
+
+app_config = lambda app_name: f'{app_name}.apps.{app_name.capitalize()}Config'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,6 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    app_config('accounting'),
+    
+    #thrid apps
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -97,6 +105,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounting.authentication.PhoneNumberAuthBackend',
 ]
 
 
